@@ -16,6 +16,9 @@ import {
     makeDashedApproach,
     makeHeliportMark,
     makeYellowTruck,
+    makeAndinaTent,
+    makeAndinaBarrier,
+    makeAndinaBar,
 } from './modules/estructuras.js';
 
 // =========================================================
@@ -386,6 +389,25 @@ class SWATBaseRender {
         this.scene.add(cobertizoRoof);
 
         // ---------------------------------------------------
+        // CARPAS ANDINA LIGHT Y BARRA
+        // ---------------------------------------------------
+        this.andinaTents = [];
+        for (let row = 0; row < 2; row++) {
+            for (let col = 0; col < 3; col++) {
+                const tent = makeAndinaTent();
+                // Posicionar cerca del cobertizo, formando el patrón de 2x3 del plano
+                tent.position.set(-8 + col * 4.5, 0, -12 + row * 4.5);
+                this.scene.add(tent);
+                this.andinaTents.push(tent);
+            }
+        }
+        
+        // Barra Andina Light debajo de una de las carpas centrales
+        const bar = makeAndinaBar();
+        bar.position.set(-8 + 1 * 4.5, 0, -12 + 0 * 4.5);
+        this.scene.add(bar);
+
+        // ---------------------------------------------------
         // ZONA DE ESTACIONAMIENTO
         // ---------------------------------------------------
         const parkingMat = makePavement(22, 12, 0x999999);
@@ -613,6 +635,26 @@ class SWATBaseRender {
         const hMark = makeHeliportMark(0xffffff, 2.5);
         hMark.position.set(30, 0.06, 24);
         this.scene.add(hMark);
+
+        // ---------------------------------------------------
+        // VALLAS ANDINA LIGHT (Camino al Helipuerto)
+        // ---------------------------------------------------
+        this.andinaBarriers = [];
+        // Crear un pasillo con vallas hacia el helipuerto
+        for (let i = 0; i < 4; i++) {
+            const barrierL = makeAndinaBarrier(3);
+            barrierL.position.set(20 + i * 3, 0, 22);
+            // Rotar ligeramente para seguir el camino
+            barrierL.rotation.y = 0.2;
+            this.scene.add(barrierL);
+            this.andinaBarriers.push(barrierL);
+            
+            const barrierR = makeAndinaBarrier(3);
+            barrierR.position.set(20 + i * 3, 0, 26);
+            barrierR.rotation.y = 0.2;
+            this.scene.add(barrierR);
+            this.andinaBarriers.push(barrierR);
+        }
 
         // ---------------------------------------------------
         // VEHÍCULO AMARILLO cerca del cobertizo

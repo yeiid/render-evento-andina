@@ -442,3 +442,172 @@ export function makeYellowTruck(color = 0xffcc00) {
     }
     return group;
 }
+
+// -------------------------------------------------------
+// ANDINA LIGHT STRUCTURES
+// -------------------------------------------------------
+
+/** Carpa Andina (Pyramidal Tent) */
+export function makeAndinaTent() {
+    const group = new THREE.Group();
+    const blueColor = 0x0055a4; // Andina Blue
+    
+    // Roof (Pyramid)
+    const roofMat = new THREE.MeshStandardMaterial({
+        color: blueColor,
+        roughness: 0.9,
+        side: THREE.DoubleSide
+    });
+    // ConeGeometry(radius, height, radialSegments)
+    // Using 4 segments for a square pyramid
+    const roofGeo = new THREE.ConeGeometry(2.8, 1.5, 4);
+    // Rotate to align with square base
+    roofGeo.rotateY(Math.PI / 4);
+    const roof = new THREE.Mesh(roofGeo, roofMat);
+    roof.position.y = 3.25; // 2.5 (pole height) + 0.75 (half cone height)
+    roof.castShadow = true;
+    roof.receiveShadow = true;
+    group.add(roof);
+
+    // Valance (faldón blanco/azul con logo)
+    const valanceMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9 });
+    const valanceGeo = new THREE.BoxGeometry(4.0, 0.4, 4.0);
+    const valance = new THREE.Mesh(valanceGeo, valanceMat);
+    valance.position.y = 2.5;
+    valance.castShadow = true;
+    group.add(valance);
+
+    // Text Sprite for "ANDINA" on the valance (optional, added to one side)
+    if (typeof makeTextSprite === 'function') {
+        const logo1 = makeTextSprite('ANDINA', blueColor, 'transparent');
+        logo1.scale.set(3, 0.75, 1);
+        logo1.position.set(0, 2.5, 2.01);
+        group.add(logo1);
+        
+        const logo2 = makeTextSprite('ANDINA', blueColor, 'transparent');
+        logo2.scale.set(3, 0.75, 1);
+        logo2.position.set(0, 2.5, -2.01);
+        logo2.rotation.y = Math.PI;
+        group.add(logo2);
+    }
+
+    // Poles (4 patas)
+    const poleMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.6, roughness: 0.4 });
+    const poleGeo = new THREE.CylinderGeometry(0.05, 0.05, 2.5, 8);
+    for (let x of [-1.9, 1.9]) {
+        for (let z of [-1.9, 1.9]) {
+            const pole = new THREE.Mesh(poleGeo, poleMat);
+            pole.position.set(x, 1.25, z);
+            pole.castShadow = true;
+            group.add(pole);
+        }
+    }
+
+    return group;
+}
+
+/** Valla Andina (Blue Barrier) */
+export function makeAndinaBarrier(length = 2.5) {
+    const group = new THREE.Group();
+    const blueColor = 0x0055a4;
+    
+    // Marco exterior (tubo azul)
+    const frameMat = new THREE.MeshStandardMaterial({ color: blueColor, metalness: 0.4, roughness: 0.6 });
+    
+    // Postes laterales
+    const height = 1.2;
+    const postGeo = new THREE.CylinderGeometry(0.03, 0.03, height, 8);
+    for (let x of [-length/2 + 0.05, length/2 - 0.05]) {
+        const post = new THREE.Mesh(postGeo, frameMat);
+        post.position.set(x, height/2, 0);
+        post.castShadow = true;
+        group.add(post);
+        
+        // Patitas
+        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.6, 8), frameMat);
+        foot.rotation.x = Math.PI / 2;
+        foot.position.set(x, 0.05, 0);
+        group.add(foot);
+    }
+
+    // Tubos horizontales superior e inferior
+    const horizGeo = new THREE.CylinderGeometry(0.03, 0.03, length, 8);
+    horizGeo.rotateZ(Math.PI / 2);
+    
+    const topBar = new THREE.Mesh(horizGeo, frameMat);
+    topBar.position.y = height - 0.05;
+    group.add(topBar);
+    
+    const bottomBar = new THREE.Mesh(horizGeo, frameMat);
+    bottomBar.position.y = 0.2;
+    group.add(bottomBar);
+
+    // Lona (Banner)
+    const bannerMat = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+    const banner = new THREE.Mesh(new THREE.PlaneGeometry(length - 0.2, height - 0.35), bannerMat);
+    banner.position.y = (height - 0.05 + 0.2) / 2;
+    group.add(banner);
+
+    if (typeof makeTextSprite === 'function') {
+        const logo = makeTextSprite('ANDINA LIGHT', blueColor, 'transparent');
+        logo.scale.set(length * 0.8, (height - 0.35) * 0.8, 1);
+        logo.position.set(0, banner.position.y, 0.02);
+        group.add(logo);
+        
+        const logoBack = makeTextSprite('ANDINA LIGHT', blueColor, 'transparent');
+        logoBack.scale.set(length * 0.8, (height - 0.35) * 0.8, 1);
+        logoBack.position.set(0, banner.position.y, -0.02);
+        logoBack.rotation.y = Math.PI;
+        group.add(logoBack);
+    }
+
+    return group;
+}
+
+/** Barra Andina (Bar Stand / Coolers) */
+export function makeAndinaBar() {
+    const group = new THREE.Group();
+    const blueColor = 0x0055a4;
+    
+    // Mostrador principal
+    const barWidth = 4.0;
+    const barHeight = 1.1;
+    const barDepth = 0.8;
+    const bodyMat = new THREE.MeshStandardMaterial({ color: blueColor, roughness: 0.8 });
+    const body = new THREE.Mesh(new THREE.BoxGeometry(barWidth, barHeight, barDepth), bodyMat);
+    body.position.y = barHeight / 2;
+    body.castShadow = true;
+    body.receiveShadow = true;
+    group.add(body);
+
+    // Tope del mostrador (madera/negro)
+    const topMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 });
+    const top = new THREE.Mesh(new THREE.BoxGeometry(barWidth + 0.1, 0.05, barDepth + 0.1), topMat);
+    top.position.y = barHeight;
+    group.add(top);
+
+    // Letrero Frontal
+    if (typeof makeTextSprite === 'function') {
+        const logo = makeTextSprite('ANDINA LIGHT', '#ffffff', 'transparent');
+        logo.scale.set(3, 0.8, 1);
+        logo.position.set(0, barHeight / 2, barDepth / 2 + 0.01);
+        group.add(logo);
+    }
+    
+    // Hieleras (Coolers) detrás de la barra
+    const coolerMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.5 });
+    for(let i of [-1, 1]) {
+        const cooler = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.9, 0.8), coolerMat);
+        cooler.position.set(i * 1.0, 0.45, -1.0);
+        cooler.castShadow = true;
+        group.add(cooler);
+        
+        // Tapas grises
+        const lidMat = new THREE.MeshStandardMaterial({ color: 0x555555 });
+        const lid = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.05, 0.8), lidMat);
+        lid.position.set(i * 1.0, 0.9, -1.0);
+        group.add(lid);
+    }
+
+    return group;
+}
