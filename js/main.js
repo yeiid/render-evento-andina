@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // ---- Módulos del mapa S.W.A.T. ----
 import { createTerrain } from './modules/terreno.js';

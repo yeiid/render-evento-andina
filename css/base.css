@@ -1,0 +1,27 @@
+/* css/base.css - Variables, resets and base typography */
+:root {
+    --andina-blue: #0055a4;
+    --andina-dark: #003060;
+    --andina-yellow: #FFD700;
+    --bg-color: #050608;
+    --panel-bg: rgba(15, 18, 25, 0.95);
+    --text-main: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow: hidden;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: row;
+    touch-action: none; /* Prevent default browser pinch-zoom & pan */
+}

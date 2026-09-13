@@ -1,0 +1,142 @@
+/* css/layout.css - Sidebar, workspace layout & mobile bottom bar responsive styles */
+
+/* Sidebar / Bottom Bar */
+.sidebar {
+    width: 320px;
+    background: var(--panel-bg);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    padding: 20px;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(15px);
+}
+
+.sidebar-header {
+    margin-bottom: 20px;
+}
+
+.sidebar h2 {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: var(--andina-yellow);
+    font-weight: 800;
+}
+
+.sidebar p {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+.item-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+    align-content: start;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.btn {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    text-align: center;
+    color: white;
+    background: rgba(255,255,255,0.1);
+    text-transform: uppercase;
+}
+
+.btn:hover, .btn:active {
+    background: rgba(255,255,255,0.2);
+}
+
+.btn-primary {
+    background: var(--andina-blue);
+    border: 1px solid var(--andina-yellow);
+    grid-column: span 2;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background: var(--andina-dark);
+    box-shadow: 0 5px 15px rgba(0,85,164,0.5);
+}
+
+/* Map Workspace */
+.workspace {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    cursor: grab;
+}
+
+.workspace:active {
+    cursor: grabbing;
+}
+
+.map-wrapper {
+    transform-origin: 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+}
+
+.map-image {
+    display: block;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.elements-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Media Query for Mobile (Bottom Bar Layout) */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column-reverse;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: 35vh;
+        border-right: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding: 15px;
+    }
+    
+    .item-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .workspace {
+        height: 65vh;
+    }
+}

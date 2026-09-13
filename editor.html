@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.W.A.T. x Andina Light - Mobile Editor & 3D Visualizer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Modular Stylesheets -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+    <!-- Sidebar / Mobile Bottom Bar -->
+    <aside class="sidebar">
+        <header class="sidebar-header">
+            <div class="user-bar">
+                <h2>Herramientas</h2>
+                <button class="user-badge" id="btnOpenLogin"><span id="userBadge">🔑 Iniciar Sesión</span></button>
+            </div>
+            <p>Toca un elemento para añadirlo al centro del mapa.</p>
+        </header>
+        
+        <!-- Element Catalog (Populated dynamically by CatalogPanel.js) -->
+        <div class="item-list"></div>
+
+        <section class="actions">
+            <!-- Hidden inputs for file upload -->
+            <input type="file" id="mapInput" accept="image/*" style="display: none;">
+            <input type="file" id="jsonInput" accept=".json" style="display: none;">
+            
+            <button class="btn btn-3d" id="btnView3D">👁️ Vista 3D Realista</button>
+            
+            <div class="actions-grid">
+                <button class="btn" id="btnUploadMap">Subir Mapa (Img)</button>
+                <button class="btn" id="btnLoad">Cargar Diseño</button>
+            </div>
+            <button class="btn btn-primary" id="btnSave">Guardar Local (JSON)</button>
+            <button class="btn btn-cloud" id="btnCloudSave">☁️ Guardar en Nube</button>
+        </section>
+    </aside>
+
+    <!-- Map Workspace Canvas -->
+    <main class="workspace" id="workspace">
+        <div class="map-wrapper" id="mapWrapper">
+            <img src="imagen1.png" alt="Mapa Base" class="map-image" id="mapImage">
+            <div class="elements-container" id="elementsContainer"></div>
+        </div>
+        
+        <!-- Property Floating Panel -->
+        <div class="prop-panel" id="propPanel">
+            <h3>Propiedades</h3>
+            <div class="prop-row">
+                <span>Rotación:</span>
+                <input type="number" id="inpRot" value="0">
+            </div>
+            <div class="prop-actions-row">
+                <button class="btn-duplicate" id="btnDuplicate">📋 Duplicar</button>
+                <button class="btn-delete" id="btnDelete">🗑️ Eliminar</button>
+            </div>
+        </div>
+        
+        <!-- Toast Notification -->
+        <div class="notification" id="notification">Listo</div>
+    </main>
+
+    <!-- Full-screen Real-time 3D Scene Modal Overlay -->
+    <div class="three-modal" id="threeModal">
+        <div class="three-hud">
+            <div class="three-hud-left">
+                <div class="three-title">S.W.A.T. x Andina 3D</div>
+                
+                <!-- Camera Modes Selector -->
+                <div class="camera-modes-group">
+                    <button class="btn-mode active" id="btnModeOrbit">🛰️ Órbita</button>
+                    <button class="btn-mode" id="btnModeWalk">🚶 Peatón (1.7m)</button>
+                    <button class="btn-mode" id="btnModeDrone">🚁 Dron</button>
+                </div>
+
+                <!-- Scenario Element Stats Badge -->
+                <div class="three-stats" id="threeStatsBadge">📊 0 elementos</div>
+            </div>
+            
+            <div class="three-hud-controls">
+                <button class="btn-hud" id="btnDuplicate3D" title="Duplicar (Ctrl+D)">📋 Duplicar</button>
+                <button class="btn-hud btn-hud-danger" id="btnDelete3D" title="Eliminar (Supr)">🗑️ Eliminar</button>
+                <button class="btn-hud" id="btnFocus3D" title="Enfocar Objeto">🔍 Enfocar</button>
+                <button class="btn-hud" id="btnOverview3D" title="Vista Panorámica">🌐 General</button>
+                <button class="btn-hud" id="btnToggle3DLight" title="Alternar Día / Noche">☀️/🌙 Día-Noche</button>
+                <button class="btn-hud" id="btnSnapshot3D" title="Exportar Render PNG">📸 Captura PNG</button>
+                <button class="btn-hud btn-hud-close" id="btnClose3D">← Volver a 2D</button>
+            </div>
+        </div>
+        <div class="three-canvas-container" id="threeCanvasContainer"></div>
+    </div>
+
+    <!-- Authentication Modal Overlay -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-card">
+            <button class="auth-close" id="btnCloseAuth">×</button>
+            <div class="auth-header">
+                <h2>Acceso a Nube Andina</h2>
+                <p>Inicia sesión para guardar y sincronizar escenarios</p>
+            </div>
+            <form class="auth-form" id="authForm">
+                <div class="auth-field">
+                    <label>Usuario</label>
+                    <input type="text" id="inpUsername" placeholder="ej. admin" required value="admin">
+                </div>
+                <div class="auth-field">
+                    <label>Contraseña</label>
+                    <input type="password" id="inpPassword" placeholder="••••••••" required value="password123">
+                </div>
+                <button type="submit" class="btn btn-primary auth-submit">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Module Entry Point -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
