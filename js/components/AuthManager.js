@@ -72,7 +72,7 @@ export class AuthManager {
             return;
         }
 
-        const API_BASE = window.location.port === '5173' ? 'http://localhost:3001' : '';
+        const API_BASE = window.location.port === '5173' ? 'http://localhost:3010' : '';
 
         try {
             const res = await fetch(`${API_BASE}/api/auth/login`, {
@@ -112,7 +112,7 @@ export class AuthManager {
             elements: this.state.elements
         };
 
-        const API_BASE = window.location.port === '5173' ? 'http://localhost:3001' : '';
+        const API_BASE = window.location.port === '5173' ? 'http://localhost:3010' : '';
 
         try {
             const res = await fetch(`${API_BASE}/api/scenes`, {

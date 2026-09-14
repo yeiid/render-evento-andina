@@ -25,8 +25,9 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/backend ./backend
 COPY --from=builder /app/imagen1.png* ./
-COPY --from=builder /app/package.json ./package.json
+ENV NODE_ENV=production
+ENV PORT=3010
 
-EXPOSE 3001
+EXPOSE 3010
 
 CMD ["node", "backend/server.js"]

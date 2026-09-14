@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3010;
 const DATA_DIR = path.join(__dirname, 'data');
 const DIST_DIR = path.join(__dirname, '../dist');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
