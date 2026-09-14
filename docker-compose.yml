@@ -15,7 +15,15 @@ services:
       - PORT=3010
     volumes:
       - andina_data:/app/backend/data
+    networks:
+      - default
+      - dokploy-network
     restart: unless-stopped
+
+networks:
+  dokploy-network:
+    external: true
+    name: dokploy-network
 
 volumes:
   andina_data:
