@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: render-evento-andina
-    ports:
-      - "3010:3010"
     expose:
       - "3010"
     environment:
@@ -15,6 +13,13 @@ services:
       - PORT=3010
     volumes:
       - andina_data:/app/backend/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.render-andina.rule=Host(`render.neuraljira.tech`)"
+      - "traefik.http.routers.render-andina.entrypoints=websecure"
+      - "traefik.http.routers.render-andina.tls=true"
+      - "traefik.http.routers.render-andina.tls.certresolver=letsencrypt"
+      - "traefik.http.services.render-andina.loadbalancer.server.port=3010"
     networks:
       - default
       - dokploy-network
