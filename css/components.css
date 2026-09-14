@@ -207,6 +207,20 @@
     z-index: 10;
 }
 
+.placed-element.multi-selected {
+    outline: 3px dashed var(--andina-yellow);
+    outline-offset: 6px;
+    z-index: 10;
+}
+
+.canvas-selection-box {
+    position: absolute;
+    border: 2px dashed #00e676;
+    background: rgba(0, 230, 118, 0.15);
+    pointer-events: none;
+    z-index: 99;
+}
+
 .el-tent, .el-tent_3x3, .el-tent_4x4, .el-tent_4x6, .el-tent_4x8, .el-tent_pagoda, .el-tent_pagoda_4x8 {
     background: linear-gradient(135deg, var(--andina-blue), var(--andina-dark));
     border: 4px solid var(--andina-yellow);
@@ -424,6 +438,49 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.btn-group, .btn-ungroup {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn-group:hover {
+    background: var(--andina-blue);
+    border-color: var(--andina-yellow);
+}
+
+.btn-ungroup:hover {
+    background: #c62828;
+    border-color: #ff5252;
+}
+
+.btn-save-prefab {
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-save-prefab:hover {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    transform: translateY(-1px);
 }
 
 /* Toast Notification */

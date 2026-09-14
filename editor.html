@@ -55,8 +55,8 @@
         
         <!-- Property Floating Panel -->
         <div class="prop-panel" id="propPanel">
-            <h3>Propiedades</h3>
-            <div class="prop-row">
+            <h3 id="propTitle">Propiedades</h3>
+            <div class="prop-row" id="propRowRot">
                 <span>Rotación:</span>
                 <input type="number" id="inpRot" value="0">
             </div>
@@ -64,6 +64,11 @@
                 <button class="btn-duplicate" id="btnDuplicate">📋 Duplicar</button>
                 <button class="btn-delete" id="btnDelete">🗑️ Eliminar</button>
             </div>
+            <div class="prop-actions-row">
+                <button class="btn-group" id="btnGroup">🔗 Agrupar</button>
+                <button class="btn-ungroup" id="btnUngroup">🔓 Desagrupar</button>
+            </div>
+            <button class="btn-save-prefab" id="btnSavePrefab">⭐ Guardar Conjunto</button>
         </div>
         
         <!-- Toast Notification -->

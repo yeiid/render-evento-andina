@@ -5,6 +5,7 @@
  */
 import { State } from './core/State.js';
 import { CanvasWorkspace } from './components/CanvasWorkspace.js';
+import { GroupManager } from './components/GroupManager.js';
 import { ElementManager } from './components/ElementManager.js';
 import { PropertyPanel } from './components/PropertyPanel.js';
 import { CatalogPanel } from './components/CatalogPanel.js';
@@ -18,8 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Instantiate UI components
     const workspace = new CanvasWorkspace(state);
+    const groupManager = new GroupManager(state, workspace);
     const elementManager = new ElementManager(state, workspace);
-    const propertyPanel = new PropertyPanel(state);
+    const propertyPanel = new PropertyPanel(state, groupManager);
     const catalogPanel = new CatalogPanel(state, workspace);
     const storageManager = new StorageManager(state, workspace);
     const authManager = new AuthManager(state);

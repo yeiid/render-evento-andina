@@ -536,28 +536,41 @@ export class ThreeSceneViewer {
     }
 
     toggleLighting() {
-        this.isNight = !this.isNight;
-        
-        if (this.isNight) {
+        if (!this.lightingMode) this.lightingMode = 'day';
+
+        if (this.lightingMode === 'day') {
+            this.lightingMode = 'sunset';
+            this.scene.background.setHex(0x2a1420);
+            this.scene.fog.color.setHex(0x2a1420);
+            this.directionalLight.color.setHex(0xff9944);
+            this.directionalLight.intensity = 1.6;
+            this.ambientLight.intensity = 0.5;
+            this.elementsGroup.traverse(child => {
+                if (child.isPointLight) child.intensity = 0.6;
+            });
+            showNotification('Modo 3D: Atardecer Dorado 🌅');
+        } else if (this.lightingMode === 'sunset') {
+            this.lightingMode = 'night';
             this.scene.background.setHex(0x020307);
             this.scene.fog.color.setHex(0x020307);
-            this.directionalLight.intensity = 0.2;
+            this.directionalLight.color.setHex(0x4466aa);
+            this.directionalLight.intensity = 0.25;
             this.ambientLight.intensity = 0.3;
-            
             this.elementsGroup.traverse(child => {
-                if (child.isPointLight) child.intensity = 1.5;
+                if (child.isPointLight) child.intensity = 1.8;
             });
-            showNotification('Modo Noche 3D (Luces de Evento Activas)');
+            showNotification('Modo 3D: Noche Evento LED 🌙');
         } else {
+            this.lightingMode = 'day';
             this.scene.background.setHex(0x050811);
             this.scene.fog.color.setHex(0x050811);
+            this.directionalLight.color.setHex(0xfff5ea);
             this.directionalLight.intensity = 1.4;
             this.ambientLight.intensity = 0.7;
-            
             this.elementsGroup.traverse(child => {
                 if (child.isPointLight) child.intensity = 0.3;
             });
-            showNotification('Modo Día 3D');
+            showNotification('Modo 3D: Sol de Día ☀️');
         }
     }
 

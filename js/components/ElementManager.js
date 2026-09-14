@@ -77,15 +77,22 @@ export class ElementManager {
                 return;
             }
 
-            this.state.selectElement(elData.id);
+            this.state.selectElement(elData.id, e.shiftKey);
             const rect = this.wrapper.getBoundingClientRect();
             const mouseX = (clientX - rect.left) / this.state.scale;
             const mouseY = (clientY - rect.top) / this.state.scale;
             
+            const activeIds = this.state.selectedIds.length > 0 ? this.state.selectedIds : [elData.id];
             this.draggingElement = {
-                id: elData.id,
-                offsetX: mouseX - elData.x,
-                offsetY: mouseY - elData.y
+                primaryId: elData.id,
+                offsets: activeIds.map(sId => {
+                    const item = this.state.elements.find(el => el.id === sId);
+                    return {
+                        id: sId,
+                        offsetX: mouseX - item.x,
+                        offsetY: mouseY - item.y
+                    };
+                })
             };
             e.stopPropagation();
         };
@@ -109,12 +116,15 @@ export class ElementManager {
         div.style.transform = `rotate(${elData.rot}deg)`;
     }
 
-    updateSelectionDOM(selectedId) {
-        document.querySelectorAll('.placed-element').forEach(el => el.classList.remove('selected'));
-        if (selectedId) {
-            const div = document.getElementById(selectedId);
-            if (div) div.classList.add('selected');
-        }
+    updateSelectionDOM() {
+        document.querySelectorAll('.placed-element').forEach(el => el.classList.remove('selected', 'multi-selected'));
+        const activeIds = this.state.selectedIds || [];
+        activeIds.forEach(id => {
+            const div = document.getElementById(id);
+            if (div) {
+                div.classList.add(activeIds.length > 1 ? 'multi-selected' : 'selected');
+            }
+        });
     }
 
     removeElementDOM(id) {
@@ -129,9 +139,11 @@ export class ElementManager {
                 const x = (clientX - rect.left) / this.state.scale;
                 const y = (clientY - rect.top) / this.state.scale;
                 
-                this.state.updateElement(this.draggingElement.id, {
-                    x: x - this.draggingElement.offsetX,
-                    y: y - this.draggingElement.offsetY
+                this.draggingElement.offsets.forEach(off => {
+                    this.state.updateElement(off.id, {
+                        x: Math.round(x - off.offsetX),
+                        y: Math.round(y - off.offsetY)
+                    });
                 });
             } else if (this.rotatingElement) {
                 const elData = this.state.elements.find(el => el.id === this.rotatingElement.id);
@@ -141,7 +153,15 @@ export class ElementManager {
                     const centerY = (rect.top + elData.y * this.state.scale) + (elData.h * this.state.scale / 2);
                     const angle = Math.atan2(clientY - centerY, clientX - centerX) * 180 / Math.PI;
                     const rot = Math.round(angle + 90);
-                    this.state.updateElement(elData.id, { rot });
+                    
+                    // If element belongs to multi-selection/group, rotate all relative to group center or individually
+                    if (this.state.selectedIds.includes(elData.id) && this.state.selectedIds.length > 1) {
+                        this.state.selectedIds.forEach(sId => {
+                            this.state.updateElement(sId, { rot });
+                        });
+                    } else {
+                        this.state.updateElement(elData.id, { rot });
+                    }
                 }
             }
         };
